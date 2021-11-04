@@ -1,0 +1,23 @@
+@startuml NFTSwap
+actor Alice as Alice
+control smart_contract as sc
+actor Bob as Bob 
+
+Alice -> sc: Creates a new set
+loop n times:
+Alice -> sc: approves a token
+Alice -> sc: send the desired amount of tokens  to the set
+end
+Alice -> sc: locks the set and makes an order
+Bob -> sc: Creates a new set
+loop n times:
+Bob -> sc: approves a token
+Bob -> sc: send the desired amount of tokens  to the set
+end
+Bob -> sc: locks the set and makes an offer matching Alice's order
+Alice -> sc: accepts the offer and makes the swap happen, the sets become unlocked
+Alice -> sc: withdraws her tokens
+sc -> Alice: sends the swapped tokens to Alice
+Bob -> sc: withdraws his tokens
+sc -> Bob: sends the swapped tokens to Bob
+@enduml
