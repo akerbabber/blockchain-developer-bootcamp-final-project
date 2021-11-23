@@ -60,13 +60,15 @@ contract NFTswap {
     
   }
 // withdrawlFromSet() enables the withdrawal of a token from the set, changing the user's set accordingly
-  function withdrawalFromSet (address _tokenAddress, uint _amount) public notLocked {
+  function withdrawalFromSet (address _tokenAddress, uint _amount,uint _position) public notLocked {
     ERC20 token;
     token = ERC20(_tokenAddress);
     require(sets[msg.sender][_tokenAddress] >= _amount,           
             "Not enough tokens in the set"
         );
     sets[msg.sender][_tokenAddress] -= _amount;
+    tokensInSet[msg.sender][_position] = tokensInSet[msg.sender][tokensInSet[msg.sender].length - 1];
+    tokensInSet[msg.sender].pop();
     token.transfer(msg.sender, _amount);
   }
   // makeOrder() creates an order, putting at sale the maker's set after having locked it
@@ -120,7 +122,7 @@ contract NFTswap {
       tokensInSet[orderAddress].push(helperTokenList2[i]);
     }
     isLocked[offerAddress] = false;
-    isLocked[orderAddress] = true;
+    isLocked[orderAddress] = false;
     //(sets[offers[msg.sender][_offer]],sets[msg.sender]) = (sets[msg.sender],sets[offers[msg.sender][_offer]]);
 
   }

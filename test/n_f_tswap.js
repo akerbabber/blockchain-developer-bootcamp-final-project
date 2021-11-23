@@ -88,12 +88,12 @@ describe('First ERC20 deployment', function () {
    ); 
    describe("Testing token withdrawal from the token set",async () => {
     it("Alice should be able to withdrawal tokens", async () => {
-      await NFTswapInstance.withdrawalFromSet(firstErc20.address,toBN(100 * 10 ** 18).toString());
+      await NFTswapInstance.withdrawalFromSet(firstErc20.address,toBN(100 * 10 ** 18).toString(), 0,{from: alice});
     } ) ;
     it("should update the sets amount", async () => {
       assert.equal(await NFTswapInstance.getSetTokenAmount(alice,firstErc20.address),"0");
     })
-    it("should have transferred the tokens bak to Alice's address", async () => {
+    it("should have transferred the tokens back to Alice's address", async () => {
       assert.equal(await firstErc20.balanceOf(alice),toBN(100 * 10 ** 18).toString());
     });
 
@@ -142,10 +142,33 @@ describe("Testing order-offer matching and lock mechanism", async () => {
 });
 describe("Testing the swap", async () => {
   it("should run acceptOffer() and make the swap happen", async () => {
-    await debug(NFTswapInstance.acceptOffer(0,{from: alice}));
-  })
-  
+    await NFTswapInstance.acceptOffer(0,{from: alice});
+  });
+  it('should have changed the state', async () => {
+    assert.equal((await NFTswapInstance.getSetTokenAmount(bob,firstErc20.address)).toString(),toBN(100 * 10 ** 18).toString());
+    assert.equal((await NFTswapInstance.getSetTokenAmount(bob,secondErc20.address)).toString(),toBN(100 * 10 ** 18).toString());
+    assert.equal((await NFTswapInstance.getSetTokenAmount(alice,thirdErc20.address)).toString(),toBN(100 * 10 ** 18).toString());
+    assert.equal((await NFTswapInstance.getSetTokenAmount(alice,fourthErc20.address)).toString(),toBN(100 * 10 ** 18).toString());
+  });
 });
+describe("Testing the withdrawal after the swap", async () => {
+  it("should let alice withdrawal her new tokens", async () => {
+    debug(await NFTswapInstance.withdrawalFromSet(thirdErc20.address,toBN(100 * 10 ** 18).toString(), 0,{from: alice}));
+    await NFTswapInstance.withdrawalFromSet(fourthErc20.address,toBN(100 * 10 ** 18).toString(), 0,{from: alice});
+  });
+  it("should show alice's balances in the token contract",async () => {
+    assert.equal(await thirdErc20.balanceOf(alice),toBN(100 * 10 ** 18).toString());
+    assert.equal(await fourthErc20.balanceOf(alice),toBN(100 * 10 ** 18).toString());
+  });
+  it("should let bob withdrawal her new tokens", async () => {
+    debug(await NFTswapInstance.withdrawalFromSet(firstErc20.address,toBN(100 * 10 ** 18).toString(), 0,{from: bob}));
+    await NFTswapInstance.withdrawalFromSet(secondErc20.address,toBN(100 * 10 ** 18).toString(), 0,{from: bob});
+  });
+  it("should show alice's balances in the token contract",async () => {
+    assert.equal(await firstErc20.balanceOf(bob),toBN(100 * 10 ** 18).toString());
+    assert.equal(await secondErc20.balanceOf(bob),toBN(100 * 10 ** 18).toString());
+  });
+})
 
 })
 })
