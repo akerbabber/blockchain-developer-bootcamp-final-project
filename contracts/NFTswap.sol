@@ -34,23 +34,33 @@ contract NFTswap {
   }
 // depositIntoSet() must accept tokens, if the user does not have a set it creates a new one, then proceeds deposit the token
 // and record it's ownerwhip
-  function makeSet() public {
+  function getIsLocked(address _address) public view returns (bool) {
+    return isLocked[_address];
+  }
+  function getOffers (address _address) public view returns (address[] memory) {
+    return offers[_address];
+  }
+  function getSetTokenAmount(address _holder,address _tokenAddress) public view returns (uint) {
+    return sets[_holder][_tokenAddress];
+  }
+  function getTokenInSetAddress(address _holder, uint _tokenPosition) public view returns (address) {
     
+    return tokensInSet[_holder][_tokenPosition];
   }
   function depositIntoSet (address _tokenAddress, uint _amount) public notLocked {
     ERC20 token;
     token = ERC20(_tokenAddress);
     require(
             token.allowance(msg.sender, address(this)) >= _amount,
-            "Token allowance too low"
+            "Token allowance is too low"
         );
     sets[msg.sender][_tokenAddress] += _amount;
     tokensInSet[msg.sender].push(_tokenAddress);
     token.transferFrom(msg.sender, address(this), _amount);
     
   }
-// withdrawlFromSet() enables the withdrawl of a token from the set, changing the user's set accordingly
-  function withdrawlfromSet (address _tokenAddress, uint _amount) public notLocked {
+// withdrawlFromSet() enables the withdrawal of a token from the set, changing the user's set accordingly
+  function withdrawalFromSet (address _tokenAddress, uint _amount) public notLocked {
     ERC20 token;
     token = ERC20(_tokenAddress);
     require(sets[msg.sender][_tokenAddress] >= _amount,           
@@ -78,11 +88,12 @@ contract NFTswap {
 
     require(isOffer(_offer),"This offer does not exist");
     require(isLocked[offerAddress],"The offer must be locked");
+    uint size = tokensInSet[orderAddress].length;
     
-    address[] memory helperTokenList1;
-    uint[] memory helperTokenBalances1;
-    address[] memory helperTokenList2;
-    uint[] memory helperTokenBalances2;
+    address[] memory helperTokenList1 = new address[](size);
+    uint[] memory helperTokenBalances1 = new uint[](size);
+    address[] memory helperTokenList2 = new address[](size);
+    uint[] memory helperTokenBalances2 = new uint[](size);
   
     for (uint i = 0;i < tokensInSet[orderAddress].length; i++){
       helperTokenList1[i] = tokensInSet[orderAddress][i];
@@ -108,7 +119,8 @@ contract NFTswap {
       sets[orderAddress][helperTokenList2[i]] = helperTokenBalances2[i];
       tokensInSet[orderAddress].push(helperTokenList2[i]);
     }
-    
+    isLocked[offerAddress] = false;
+    isLocked[orderAddress] = true;
     //(sets[offers[msg.sender][_offer]],sets[msg.sender]) = (sets[msg.sender],sets[offers[msg.sender][_offer]]);
 
   }
