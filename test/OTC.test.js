@@ -1,4 +1,4 @@
-const NFTswap = artifacts.require("NFTswap");
+const YetAnotherOTC = artifacts.require("YetAnotherOTC");
 const {
   BN,           // Big Number support
   constants,    // Common constants, like the zero address and largest integers
@@ -33,13 +33,13 @@ const ERC20 = artifacts.require('ERC20PresetMinterPauser');
 
 
 
-contract("NFTswap", function (accounts) {
+contract("YetAnotherOTC", function (accounts) {
   const alice = accounts[0];
   const bob = accounts[1];
-  let NFTswapInstance;
+  let YetAnotherOTCInstance;
   describe("Initial deployment", async => {
   it("should assert true", async function () {
-    NFTswapInstance = await NFTswap.deployed();
+    YetAnotherOTCInstance = await YetAnotherOTC.deployed();
     return assert.isTrue(true);
   }); 
 });
@@ -67,20 +67,20 @@ describe('First ERC20 deployment', function () {
 
   describe("Testing token transfers into the account address set:", async () => {
     it("Alice should give token allowance to the contract", async () => {
-      await firstErc20.approve(NFTswapInstance.address,toBN(100 * 10 ** 18),{from: alice});
+      await firstErc20.approve(YetAnotherOTCInstance.address,toBN(100 * 10 ** 18),{from: alice});
     });
     it("should let Alice deposit her tokens", async () => {
-      await NFTswapInstance.depositIntoSet(firstErc20.address,toBN(100 * 10 ** 18),{from: alice});
+      await YetAnotherOTCInstance.depositIntoSet(firstErc20.address,toBN(100 * 10 ** 18),{from: alice});
     });
     it("should save the change into the contract state", async () => {
-      assert.equal((await NFTswapInstance.getSetTokenAmount(alice,firstErc20.address)).toString(),toBN(100 * 10 ** 18).toString());
+      assert.equal((await YetAnotherOTCInstance.getSetTokenAmount(alice,firstErc20.address)).toString(),toBN(100 * 10 ** 18).toString());
       
     });
     it("should add the token address to the array", async () => {
-      assert.equal(await NFTswapInstance.getTokenInSetAddress(alice,0),firstErc20.address);
+      assert.equal(await YetAnotherOTCInstance.getTokenInSetAddress(alice,0),firstErc20.address);
     });
     it("should transfer the tokens", async () => {
-      assert.equal(await firstErc20.balanceOf(NFTswapInstance.address),toBN(100 * 10 ** 18).toString());
+      assert.equal(await firstErc20.balanceOf(YetAnotherOTCInstance.address),toBN(100 * 10 ** 18).toString());
     });
     
     
@@ -88,10 +88,10 @@ describe('First ERC20 deployment', function () {
    ); 
    describe("Testing token withdrawal from the token set",async () => {
     it("Alice should be able to withdrawal tokens", async () => {
-      await NFTswapInstance.withdrawalFromSet(firstErc20.address,toBN(100 * 10 ** 18).toString(), 0,{from: alice});
+      await YetAnotherOTCInstance.withdrawalFromSet(firstErc20.address,toBN(100 * 10 ** 18).toString(), 0,{from: alice});
     } ) ;
     it("should update the sets amount", async () => {
-      assert.equal(await NFTswapInstance.getSetTokenAmount(alice,firstErc20.address),"0");
+      assert.equal(await YetAnotherOTCInstance.getSetTokenAmount(alice,firstErc20.address),"0");
     })
     it("should have transferred the tokens back to Alice's address", async () => {
       assert.equal(await firstErc20.balanceOf(alice),toBN(100 * 10 ** 18).toString());
@@ -118,53 +118,53 @@ describe('First ERC20 deployment', function () {
 
 });
 it("should approve tokens", async () => {
-  await firstErc20.approve(NFTswapInstance.address,toBN(100 * 10 ** 18),{from: alice});
-  await secondErc20.approve(NFTswapInstance.address,toBN(100 * 10 ** 18),{from: alice});
-  await thirdErc20.approve(NFTswapInstance.address,toBN(100 * 10 ** 18),{from: bob});
-  await fourthErc20.approve(NFTswapInstance.address,toBN(100 * 10 ** 18),{from: bob});
+  await firstErc20.approve(YetAnotherOTCInstance.address,toBN(100 * 10 ** 18),{from: alice});
+  await secondErc20.approve(YetAnotherOTCInstance.address,toBN(100 * 10 ** 18),{from: alice});
+  await thirdErc20.approve(YetAnotherOTCInstance.address,toBN(100 * 10 ** 18),{from: bob});
+  await fourthErc20.approve(YetAnotherOTCInstance.address,toBN(100 * 10 ** 18),{from: bob});
 });
 it("should let alice and bob deposit their tokens", async () => {
-  await NFTswapInstance.depositIntoSet(firstErc20.address,toBN(100 * 10 ** 18),{from: alice});
-  await NFTswapInstance.depositIntoSet(secondErc20.address,toBN(100 * 10 ** 18),{from: alice});
-  await NFTswapInstance.depositIntoSet(thirdErc20.address,toBN(100 * 10 ** 18),{from: bob});
-  await NFTswapInstance.depositIntoSet(fourthErc20.address,toBN(100 * 10 ** 18),{from: bob});
+  await YetAnotherOTCInstance.depositIntoSet(firstErc20.address,toBN(100 * 10 ** 18),{from: alice});
+  await YetAnotherOTCInstance.depositIntoSet(secondErc20.address,toBN(100 * 10 ** 18),{from: alice});
+  await YetAnotherOTCInstance.depositIntoSet(thirdErc20.address,toBN(100 * 10 ** 18),{from: bob});
+  await YetAnotherOTCInstance.depositIntoSet(fourthErc20.address,toBN(100 * 10 ** 18),{from: bob});
 });
 describe("Testing order-offer matching and lock mechanism", async () => {
   it("should let alice make an order", async() => {
-    await NFTswapInstance.makeOrder({from: alice});
-    assert.equal(await NFTswapInstance.getIsLocked(alice),true);
+    await YetAnotherOTCInstance.makeOrder({from: alice});
+    assert.equal(await YetAnotherOTCInstance.getIsLocked(alice),true);
   });
   it("should let bob match Alice's offer",async () =>{
-    await NFTswapInstance.makeOffer(alice,{from: bob});
-    assert.equal(await NFTswapInstance.getIsLocked(bob),true);
-    assert.equal((await NFTswapInstance.getOffers(alice)).includes(bob),true);
+    await YetAnotherOTCInstance.makeOffer(alice,{from: bob});
+    assert.equal(await YetAnotherOTCInstance.getIsLocked(bob),true);
+    assert.equal((await YetAnotherOTCInstance.getOffers(alice)).includes(bob),true);
   });
 });
 describe("Testing the swap", async () => {
   it("should run acceptOffer() and make the swap happen", async () => {
-    await NFTswapInstance.acceptOffer(0,{from: alice});
+    await YetAnotherOTCInstance.acceptOffer(0,{from: alice});
   });
   it('should have changed the state', async () => {
-    assert.equal((await NFTswapInstance.getSetTokenAmount(bob,firstErc20.address)).toString(),toBN(100 * 10 ** 18).toString());
-    assert.equal((await NFTswapInstance.getSetTokenAmount(bob,secondErc20.address)).toString(),toBN(100 * 10 ** 18).toString());
-    assert.equal((await NFTswapInstance.getSetTokenAmount(alice,thirdErc20.address)).toString(),toBN(100 * 10 ** 18).toString());
-    assert.equal((await NFTswapInstance.getSetTokenAmount(alice,fourthErc20.address)).toString(),toBN(100 * 10 ** 18).toString());
+    assert.equal((await YetAnotherOTCInstance.getSetTokenAmount(bob,firstErc20.address)).toString(),toBN(100 * 10 ** 18).toString());
+    assert.equal((await YetAnotherOTCInstance.getSetTokenAmount(bob,secondErc20.address)).toString(),toBN(100 * 10 ** 18).toString());
+    assert.equal((await YetAnotherOTCInstance.getSetTokenAmount(alice,thirdErc20.address)).toString(),toBN(100 * 10 ** 18).toString());
+    assert.equal((await YetAnotherOTCInstance.getSetTokenAmount(alice,fourthErc20.address)).toString(),toBN(100 * 10 ** 18).toString());
   });
 });
 describe("Testing the withdrawal after the swap", async () => {
   it("should let alice withdrawal her new tokens", async () => {
-    debug(await NFTswapInstance.withdrawalFromSet(thirdErc20.address,toBN(100 * 10 ** 18).toString(), 0,{from: alice}));
-    await NFTswapInstance.withdrawalFromSet(fourthErc20.address,toBN(100 * 10 ** 18).toString(), 0,{from: alice});
+    debug(await YetAnotherOTCInstance.withdrawalFromSet(thirdErc20.address,toBN(100 * 10 ** 18).toString(), 0,{from: alice}));
+    await YetAnotherOTCInstance.withdrawalFromSet(fourthErc20.address,toBN(100 * 10 ** 18).toString(), 0,{from: alice});
   });
   it("should show alice's balances in the token contract",async () => {
     assert.equal(await thirdErc20.balanceOf(alice),toBN(100 * 10 ** 18).toString());
     assert.equal(await fourthErc20.balanceOf(alice),toBN(100 * 10 ** 18).toString());
   });
   it("should let bob withdrawal her new tokens", async () => {
-    debug(await NFTswapInstance.withdrawalFromSet(firstErc20.address,toBN(100 * 10 ** 18).toString(), 0,{from: bob}));
-    await NFTswapInstance.withdrawalFromSet(secondErc20.address,toBN(100 * 10 ** 18).toString(), 0,{from: bob});
+    debug(await YetAnotherOTCInstance.withdrawalFromSet(firstErc20.address,toBN(100 * 10 ** 18).toString(), 0,{from: bob}));
+    await YetAnotherOTCInstance.withdrawalFromSet(secondErc20.address,toBN(100 * 10 ** 18).toString(), 0,{from: bob});
   });
-  it("should show alice's balances in the token contract",async () => {
+  it("should show bob's balances in the token contract",async () => {
     assert.equal(await firstErc20.balanceOf(bob),toBN(100 * 10 ** 18).toString());
     assert.equal(await secondErc20.balanceOf(bob),toBN(100 * 10 ** 18).toString());
   });
