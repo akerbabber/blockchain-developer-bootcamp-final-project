@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yet Another OTC</title>
+    <link rel="stylesheet" href="basic.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+
+    <style>
+		main,footer {
+			margin: 0 auto;
+			width: 60%;
+			text-align: left;
+			padding: 0 20px;
+		}
+
+		section>section {
+			color: #fff;
+			background-color: var(--c1);
+			padding: 15px;
+			margin: 10px 8px 10px 8px;
+			text-align: center;
+		}
+
+		@media (max-width: 481px) {
+			body {font-size: 18px}
+			main,footer {width: 98%}
+			section,article {flex:none; width:100%; margin-left: 0;}
+		}
+	</style>
+
+</head>
+<body>
+    <main>
+    <h1>Yet Another OTC Exchange</h1>
+
+    <section>
+        <article>
+            <h4>Please connect to the Kovan testnet to use this dApp</h4>
+            <p>Yet Another OTC Exchange is an OTC (Over the counter) decentralised (is on the blockchain and there is no admin keys) exchange,
+                developed for the ConsenSys Blockchain Developer Bootcamp final project by Maurizio Murru. It makes the user load their tokens on a set 
+                that can be later exchanged for another set.</p>
+        </article>
+    </section>
+
+    <!-- <div id="dapp-intro"></div> -->
+    <div id="mm-detected"></div>
+
+    <!-- If I put this into a div bracket, can I then remove the button and replace with address on connect? -->
+    <button id="mm-connect">Connect to MetaMask</button>
+
+    <div id="mm-current-account"></div>
+    <button id="ss-faucet-button">Get ERC20 tokens from faucet</button>
+    <div></div>
+    <input id="ss-input-token-address-box" type="string" placeholder="Insert token address"/>
+    <input id="ss-input-token-amount-box" type="string" placeholder="Amount"/>
+    <button id="ss-input-approve-button">Approve token</button>
+    <button id="ss-input-deposit-button">Deposit</button>
+    <button id="ss-input-withdraw-button">Withdraw</button>
+    <div></div>
+    <button id="ss-input-offer-button">Lock and put an offer</button>
+    <div></div>
+    <input id="ss-input-offer-address-box" type="string" placeholder="Insert offer address"/>
+    <button id="ss-input-order-button">Lock and put an order</button>
+    <div></div>
+    <input id="ss-input-swap-address-box" type="string" placeholder="Insert order address"/>
+    <button id="ss-input-swap-button">Accept an order and swap</button>
+    <div id="tx-hash"></div>
+
+    <div>
+        <button id="ss-get-value">Get Minted NFTs</button>
+    </div>
+    <div id="ss-display-value">Minted NFTs: </div>
+
+    <section>
+        <article>
+            <div id="sc-name"><h4>Smart Contract Name</h4><p>Please connect to MetaMask.</p></div>
+        </article>
+        <article>
+            <div id="mint-cost"><h4>Mint Cost</h4><p>Please connect to MetaMask.</p></div>
+        </article>
+    </section>
+
+    <hr>
+    </main>
+
+    <footer>
+    <div id="useful-links"><p><a href="https://faucets.chain.link/">Kovan Faucet</a> || <a href="https://github.com/akerbabber/blockchain-developer-bootcamp-final-project">GitHub</a></p></div>
+    </footer>
+
+    <script src="dapp.js"></script>
+</body>
+</html>

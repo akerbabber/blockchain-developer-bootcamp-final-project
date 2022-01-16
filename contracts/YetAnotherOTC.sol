@@ -79,6 +79,15 @@ contract YetAnotherOTC {
     return tokensInSet[_holder][_tokenPosition];
   }
 
+  /// @notice getter function to get the size set by checking the tokensInSet mapping
+  /// @param _holder(the set's owner address)
+  /// @return the size of a set
+
+  function getSetSize(address _holder) public view returns (uint) {
+    
+    return tokensInSet[_holder].length;
+  }
+
   /// @notice functions to deposit tokens into the set
   /// @param _tokenAddress(the address of the token) _amount(the amount of tokens that the user want to deposit in the set)
   /// @dev following the check-effect-interactions paradigm:it first checks if the token's allowance is enough,
