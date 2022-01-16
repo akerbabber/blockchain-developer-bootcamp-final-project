@@ -100,8 +100,11 @@ contract YetAnotherOTC {
             token.allowance(msg.sender, address(this)) >= _amount,
             "Token allowance is too low"
         );
+    if (sets[msg.sender][_tokenAddress] == 0) {
+        tokensInSet[msg.sender].push(_tokenAddress);
+    }
     sets[msg.sender][_tokenAddress] += _amount;
-    tokensInSet[msg.sender].push(_tokenAddress);
+
     token.transferFrom(msg.sender, address(this), _amount);
     
   }
