@@ -14,4 +14,4 @@ It is a dAPP that enables the exchange of ethereum tokens via a non-custodial sm
 4)Bob can now withdraw his new tokens. 
 
 # Website address
-https://hidden-firefly-7189.on.fleek.co/app/
+https://yaotc.on.fleek.co/
