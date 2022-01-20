@@ -4,11 +4,11 @@
 
 
 // Kovan instance of contract
-const contractAddress = "0x5f8051472C0E9718e72Ff5B31E3f6EfDbb17AE73";
-const faucetAddresses = ["0xF334aDd9267e708D9e55dC55ff2D7dd02e820882",
-                        "0xEE8b99857bA4b07269BC3Bff43CF5cD15F73945b",
-                        "0x5380628dBa176ea46232550438f112C17DEFFF86",
-                        "0xE2F70a325f337A6f25f01dc324E36a0A263FdBa4"];
+const contractAddress = "0x9cDba3b5F5325c475618a7E4b00B1f715ebFE19F";
+const faucetAddresses = ["0xc388fB1Af39587C605e4e5e66e87D28b1bBfdFe1",
+                        "0x7d003787Baa2cF5b6995899d5cb7F57bcF4E5a44",
+                        "0x10EF22b5D082ABB9997386BB567503Ed03c343A2",
+                        "0x327e1962fEcFf9e7768BF33A006F5671B29A57D4"];
 
 // Ganache-deployed contract ABI
 const contractABI = [

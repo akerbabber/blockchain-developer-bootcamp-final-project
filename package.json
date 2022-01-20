@@ -1,0 +1,36 @@
+{
+  "name": "blockchain-developer-bootcamp-final-project",
+  "version": "0.1.0",
+  "description": "Yet another OTC dex",
+  "main": "truffle-config.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.4.2",
+    "@openzeppelin/test-helpers": "^0.5.15",
+    "@truffle/hdwallet-provider": "^2.0.0",
+    "dotenv": "^14.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akerbabber/blockchain-developer-bootcamp-final-project.git"
+  },
+  "keywords": [
+    "dex",
+    "defi",
+    "solidity",
+    "ethereum"
+  ],
+  "author": "Maurizio Murru",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akerbabber/blockchain-developer-bootcamp-final-project/issues"
+  },
+  "homepage": "https://github.com/akerbabber/blockchain-developer-bootcamp-final-project#readme"
+}

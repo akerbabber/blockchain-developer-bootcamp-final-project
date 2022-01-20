@@ -17,7 +17,10 @@
  * phrase from a file you've .gitignored so it doesn't accidentally become public.
  *
  */
-
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+const dotenv = require('dotenv');
+dotenv.config();
+const mnemonic = process.env.MNEMONIC;
 // const HDWalletProvider = require('@truffle/hdwallet-provider');
 //
 // const fs = require('fs');
@@ -41,11 +44,17 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
     //
-   development: {
-    host: "127.0.0.1",     // Localhost (default: none)
-    port: 8545,            // Standard Ethereum port (default: none)
-    network_id: "*",       // Any network (default: none)
-   },
+    kovan: { 
+      provider: () => new HDWalletProvider(mnemonic, process.env.INFURA_URL),
+      network_id: 42,
+      gas: 4612388 },
+
+
+    development: {
+      host: "127.0.0.1",     // Localhost (default: none)
+      port: 8545,            // Standard Ethereum port (default: none)
+      network_id: "*",       // Any network (default: none)
+    },
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
@@ -104,13 +113,13 @@ module.exports = {
   // $ truffle migrate --reset --compile-all
   //
   // db: {
-    // enabled: false,
-    // host: "127.0.0.1",
-    // adapter: {
-    //   name: "sqlite",
-    //   settings: {
-    //     directory: ".db"
-    //   }
-    // }
+  // enabled: false,
+  // host: "127.0.0.1",
+  // adapter: {
+  //   name: "sqlite",
+  //   settings: {
+  //     directory: ".db"
+  //   }
+  // }
   // }
 };
