@@ -15,3 +15,6 @@ It is a dAPP that enables the exchange of ethereum tokens via a non-custodial sm
 
 # Website address
 https://yaotc.on.fleek.co/
+
+# My Ethereum address
+0x668b1a719fe8719c6e26b83e4abffca4948a1e48
