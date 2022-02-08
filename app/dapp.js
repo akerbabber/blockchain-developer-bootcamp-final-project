@@ -1090,7 +1090,7 @@ ssSwapButton.onclick = async () => {
 window.addEventListener('click', async function () {
   const tokenList = document.getElementById('token-list');
   const setSize = await smartContractInstance.methods.getSetSize(ethereum.selectedAddress).call();
-  console.log(ssGetAddress);
+  //console.log(ssGetAddress);
   if (setSize != 0) {
     tokenList.innerHTML = "";
     for (let position = 0; position < setSize; position++) {
