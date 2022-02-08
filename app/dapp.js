@@ -983,11 +983,12 @@ ssTokenFaucet.onclick = async () => {
 
 
 }
-let ssGetAddress = document.getElementById('ss-input-token-address-box').value;
-let ssGetAmount = document.getElementById('ss-input-token-amount-box').value;
+
 const ssApproveButton = document.getElementById('ss-input-approve-button');
 
 ssApproveButton.onclick = async () => {
+  let ssGetAddress = document.getElementById('ss-input-token-address-box').value;
+  let ssGetAmount = document.getElementById('ss-input-token-amount-box').value;
   const tokenInstance = new web3.eth.Contract(tokenABI, ssGetAddress);
   tokenInstance.setProvider(window.ethereum);
   maxUint = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
@@ -1000,6 +1001,8 @@ ssApproveButton.onclick = async () => {
 const ssDepositButton = document.getElementById('ss-input-deposit-button');
 
 ssDepositButton.onclick = async () => {
+  let ssGetAddress = document.getElementById('ss-input-token-address-box').value;
+  let ssGetAmount = document.getElementById('ss-input-token-amount-box').value; 
   await smartContractInstance.methods.depositIntoSet(ssGetAddress, web3.utils.toBN(ssGetAmount * 10 ** 18))
     .send({
       from: ethereum.selectedAddress, maxPriorityFeePerGas: null,
@@ -1012,6 +1015,8 @@ ssDepositButton.onclick = async () => {
 const ssWithdrawButton = document.getElementById('ss-input-withdraw-button');
 
 ssWithdrawButton.onclick = async () => {
+  let ssGetAddress = document.getElementById('ss-input-token-address-box').value;
+  let ssGetAmount = document.getElementById('ss-input-token-amount-box').value;
   const position = await findPosition(ssGetAddress);
   console.log(position);
   if (position != -1) {
@@ -1053,10 +1058,11 @@ ssOfferButton.onclick = async () => {
 
 }
 
-const ssGetOfferAddress = document.getElementById('ss-input-offer-address-box').value;
+
 const ssOrderButton = document.getElementById('ss-input-order-button');
 
 ssOrderButton.onclick = async () => {
+  const ssGetOfferAddress = document.getElementById('ss-input-offer-address-box').value;
 
   await smartContractInstance.methods.makeOffer(ssGetOfferAddress)
     .send({
@@ -1067,11 +1073,11 @@ ssOrderButton.onclick = async () => {
 
 }
 
-const ssGetSwapAddress = document.getElementById('ss-input-swap-address-box').value;
+
 const ssSwapButton = document.getElementById('ss-input-swap-button');
 
 ssSwapButton.onclick = async () => {
-
+  const ssGetSwapAddress = document.getElementById('ss-input-swap-address-box').value;
   await smartContractInstance.methods.acceptOffer(ssGetSwapAddress)
     .send({
       from: ethereum.selectedAddress, maxPriorityFeePerGas: null,
