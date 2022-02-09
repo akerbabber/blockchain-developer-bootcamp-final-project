@@ -1046,7 +1046,7 @@ const findPosition = async (tokenAddress) => {
 }
 
 const findOrderPosition = async (orderAddress) => {
-  const offers = smartContractInstance.methods.getOffer(orderAddress).call();
+  const offers = smartContractInstance.methods.getOffers(orderAddress).call();
   const lastPosition = offers.length;
   for (let position = 0; position < lastPosition; position++) {
     let addressInPosition = offers[position];
