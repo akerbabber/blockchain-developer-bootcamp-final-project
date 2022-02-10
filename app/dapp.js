@@ -1046,12 +1046,12 @@ const findPosition = async (tokenAddress) => {
 }
 
 const findOrderPosition = async (orderAddress) => {
-  const offers = smartContractInstance.methods.getOffers(orderAddress).call();
+  const offers = await smartContractInstance.methods.getOffers(ethereum.selectedAddress).call();
   const lastPosition = offers.length;
   for (let position = 0; position < lastPosition; position++) {
     let addressInPosition = offers[position];
     //console.log(addressInPosition);
-    if (addressInPosition == tokenAddress) {
+    if (addressInPosition == orderAddress) {
       return position
     }
   }
@@ -1091,7 +1091,7 @@ const ssSwapButton = document.getElementById('ss-input-swap-button');
 
 ssSwapButton.onclick = async () => {
   const ssGetSwapAddress = document.getElementById('ss-input-swap-address-box').value;
-  const orderPosition = findOrderPosition(ssGetSwapAddress)
+  const orderPosition = await findOrderPosition(ssGetSwapAddress);
   await smartContractInstance.methods.acceptOffer(orderPosition)
     .send({
       from: ethereum.selectedAddress, maxPriorityFeePerGas: null,
