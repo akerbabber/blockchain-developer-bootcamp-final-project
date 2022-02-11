@@ -1111,7 +1111,7 @@ window.addEventListener('click', async function () {
       let tokenAddr = await smartContractInstance.methods.getTokenInSetAddress(ethereum.selectedAddress, position).call();
       let tokenAmount = await smartContractInstance.methods.getSetTokenAmount(ethereum.selectedAddress, tokenAddr).call();
       console.log(tokenAddr);
-      tokenList.innerHTML += "Address: " + tokenAddr + " <div></div>Amount: " + (tokenAmount / 10 ** 18) + "<div></div>";
+      tokenList.innerHTML += "Address: " + tokenAddr + "<div></div>Amount: " + (tokenAmount / 10 ** 18) + "<div></div>";
     }
   }
 
